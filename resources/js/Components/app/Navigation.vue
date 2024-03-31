@@ -7,10 +7,10 @@
         <div class="px-3">
             <CreateNewDropdown/>
             <div class="py-3">
-                <NavLink href="/">My files</NavLink>
-                <NavLink href="/">Shared with me</NavLink>
-                <NavLink href="/">Shared</NavLink>
-                <NavLink href="/">Trash</NavLink>
+                <NavLink href="/">Мои файлы</NavLink>
+                <NavLink href="/">Полученные</NavLink>
+                <NavLink href="/">Отправленные</NavLink>
+                <NavLink href="/">Корзина</NavLink>
             </div>
 
         </div>

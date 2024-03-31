@@ -13,8 +13,8 @@ import { Head } from '@inertiajs/vue3';
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in "Пока только примерно расположил кнопки, скачал все нужные библиотеки, сначала установил ларавель 11 версии оказалось на него нет библиотеки Kelnoy/nestedset нужной версии, был конфликт с illuminate/support, потом настраивал мускл сервер, потом вспомнил как там на vue.js всё пишется, в следующем коммите уже будет больше работы" !</div>
+                <div class="bg-blue-500 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-white">You're logged in "Пока только примерно расположил кнопки, скачал все нужные библиотеки, сначала установил ларавель 11 версии оказалось на него нет библиотеки Kelnoy/nestedset нужной версии, был конфликт с illuminate/support, потом настраивал мускл сервер, потом вспомнил как там на vue.js всё пишется, в следующем коммите уже будет больше работы" !</div>
                 </div>
             </div>
         </div>
