@@ -1,11 +1,88 @@
 <template>
-    <Menu as="div" class="relative block text-left">
-        <MenuButton
+    <div>
+      <Menu as="div" class="relative inline-block text-left">
+        <div>
+          <MenuButton
             class="flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          >
+            Контекстное меню
+            <ChevronDownIcon
+              class="-mr-1 ml-2 h-5 w-5 text-violet-200 hover:text-violet-100"
+              aria-hidden="true"
+            />
+          </MenuButton>
+        </div>
+        <transition
+          enter-active-class="transition duration-100 ease-out"
+          enter-from-class="transform scale-95 opacity-0"
+          enter-to-class="transform scale-100 opacity-100"
+          leave-active-class="transition duration-75 ease-in"
+          leave-from-class="transform scale-100 opacity-100"
+          leave-to-class="transform scale-95 opacity-0"
         >
-            Загрузить файлы
-        </MenuButton>
-    </Menu>
-</template>
+          <MenuItems
+            class="absolute right-0 mt-2 w-50 max-h-56 overflow-y-auto origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-10"
+          >
+            <div class="px-1 py-1">
+              <MenuItem v-slot="{ active }">
+                <ResponsiveNavLink
+                  :href="route('profile.edit')"
+                  :class="[
+                    active ? 'bg-violet-500 text-white' : 'text-gray-900',
+                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                  ]"
+                >
+                  <ProfileIcon
+                    :active="active"
+                    class="mr-2 h-5 w-5 text-violet-400"
+                    aria-hidden="true"
+                  />
+                  <a>Загрузить файл</a>
+                </ResponsiveNavLink>
+              </MenuItem>
+              <MenuItem v-slot="{ active }">
+                <ResponsiveNavLink
+                  :href="route('logout')"
+                  :class="[
+                    active ? 'bg-violet-500 text-white' : 'text-gray-900',
+                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                  ]"
+                >
+                  <LogOutIcon
+                    :active="active"
+                    class="mr-2 h-5 w-5 text-violet-400"
+                    aria-hidden="true"
+                  />
+                  <a>Создать папку</a>
+                </ResponsiveNavLink>
+              </MenuItem>
+              <MenuItem v-slot="{ active }">
+                <ResponsiveNavLink
+                  :href="route('logout')"
+                  :class="[
+                    active ? 'bg-violet-500 text-white' : 'text-gray-900',
+                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                  ]"
+                >
+                  <LogOutIcon
+                    :active="active"
+                    class="mr-2 h-5 w-5 text-violet-400"
+                    aria-hidden="true"
+                  />
+                  <a>Загрузить папку</a>
+                </ResponsiveNavLink>
+              </MenuItem>
+            </div>
+          </MenuItems>
+        </transition>
+      </Menu>
+    </div>
+  </template>
 
+<script setup>
+
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
+import ResponsiveNavLink from '../ResponsiveNavLink.vue';
+
+</script>
 
