@@ -53,7 +53,7 @@
                     class="mr-2 h-5 w-5 text-violet-400"
                     aria-hidden="true"
                   />
-                  <a>Создать папку</a>
+                  <a href="#" @click.prevent="showCreateFolderModal">Создать папку</a>
                 </ResponsiveNavLink>
               </MenuItem>
               <MenuItem v-slot="{ active }">
@@ -76,6 +76,7 @@
           </MenuItems>
         </transition>
       </Menu>
+      <CreateFolderModal v-model="createFolderModal"/>
     </div>
   </template>
 
@@ -83,6 +84,20 @@
 
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import ResponsiveNavLink from '../ResponsiveNavLink.vue';
+import {ref} from 'vue'
+import CreateFolderModal from "@/Components/app/CreateFolderModal.vue";
+
+
+const createFolderModal = ref(false)
+
+
+function showCreateFolderModal()
+{
+  createFolderModal.value = true
+
+
+}
+
 
 </script>
 
