@@ -12,8 +12,16 @@ use Illuminate\Support\Facades\Auth;
 class FileController extends Controller
 {
     public function myFiles() {
-
-        return Inertia::render('MyFiles');
+        $folder= $this->getRoot();
+        $files = File::query()
+        ->where('parent_id', $folder->id)
+        ->where('created_by', Auth::id())
+        ->orderBy('is_folder','desc')
+        ->orderBy('created_at','desc')
+        ->paginate(10);
+        
+        ;
+        return Inertia::render('MyFiles',compact('files'));
     
 }
 
