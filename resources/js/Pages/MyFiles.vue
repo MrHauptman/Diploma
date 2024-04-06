@@ -26,8 +26,20 @@
         <tbody>
             <tr v-for="file of files.data" :key="file.id"
             class="bg-white border-b transition duration-300 ease-in-out
-            hover:bg-gray-100"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
+            hover:bg-gray-100">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 {{ file.name }}
+            </td> 
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 ">
+                {{ file.created_by }}
+            </td> 
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 ">
+                {{ file.updated_at }}
+            </td> 
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 ">
+                <a>
+                    {{file.size}}
+                </a>
             </td> 
 
             <td></td>
