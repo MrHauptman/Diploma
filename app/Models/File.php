@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kalnoy\Nestedset\NodeTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class File extends Model
 {
@@ -48,6 +50,15 @@ class File extends Model
             }
             $model->path = ( !$model->parent->isRoot() ? $model->parent->path . '/' : '' ) . Str::slug($model->name);
         });
-    }
+ 
+   }
+   public function owner(): Attribute
+   {
+       return Attribute::make(
+           get: function (mixed $value, array $attributes) {
+               return $attributes['created_by'] == Auth::id() ? 'me' : $this->user->name;
+           }
+       );
+   }
 
 }

@@ -31,7 +31,7 @@
                 {{ file.name }}
             </td> 
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 ">
-                {{ file.created_by }}
+                {{ file.owner }}
             </td> 
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 ">
                 {{ file.updated_at }}
