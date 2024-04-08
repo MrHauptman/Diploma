@@ -33,27 +33,32 @@
 
 <script setup>
 
-const {folderNameInput}=ref(null)
 
-const {modelValue} = defineProps({
-    modelValue: Boolean 
-})
 import Modal from "@/Components/Modal.vue"
 import TextInput from "../TextInput.vue";
 import InputError from "../InputError.vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {ref} from "vue";
 import { nextTick } from "vue";
 
+const {folderNameInput}=ref(null)
+
+const {modelValue} = defineProps({
+    modelValue: Boolean 
+})
+
 
 const form = useForm({
-    name: ''
+    name: '',
+    
 })
+const page = usePage
 
  function createFolder()
  {
+    form.parent_id = page.props.folder.id
     form.post(route('folder.create'),{
     preserveScroll: true,
     onSuccess: () => {
@@ -63,7 +68,7 @@ const form = useForm({
     onError: () => folderNameInput.value.focus()
     
     })
-    console.log("Создать Папку")
+    
 
 }
 function closeModal() {
