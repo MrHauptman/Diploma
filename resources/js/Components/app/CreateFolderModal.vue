@@ -52,14 +52,17 @@ const {modelValue} = defineProps({
 
 const form = useForm({
     name: '',
+    parent_id: null
     
 })
-const page = usePage
+ const page = usePage();
 
+ 
  function createFolder()
  {
     form.parent_id = page.props.folder.id
-    form.post(route('folder.create'),{
+    form.post(route('folder.create'),
+    {
     preserveScroll: true,
     onSuccess: () => {
         closeModal()
@@ -71,6 +74,7 @@ const page = usePage
     
 
 }
+
 function closeModal() {
     emit('update:modelValue')
     form.clearErrors();

@@ -1,6 +1,5 @@
 <template>
 <AuthenticatedLayout>
-
     <table  class="min-w-full">
         <thead class="bg-violet-500 border-b ">
            <tr> 
@@ -20,7 +19,6 @@
             <th class="text-sm font-medium text-white px-6 py-4 text-left">
                    Размер
             </th>
-        
         </tr>
         </thead>
         <tbody>
@@ -46,9 +44,8 @@
             <td></td>
             </tr>
         </tbody>
-        
     </table>
-    <div v-if="!files.data.length" class="py-8 text-center text-lg">
+    <div v-if= "!files.data.length" class="py-8 text-center text-lg">
         Папка пуста
     </div>
 
@@ -57,6 +54,9 @@
 
 
 <script setup>
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
+import { router } from "@inertiajs/vue3";
+
 
 function openFolder(file){
     if (!file.is_folder)
@@ -66,8 +66,6 @@ function openFolder(file){
     router.visit(route('myFiles',{folder: file.path}))
 }
 
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
-import { router } from "@inertiajs/vue3";
 
 
 const{files} = defineProps({
