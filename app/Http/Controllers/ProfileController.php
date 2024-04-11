@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Session;
 
 class ProfileController extends Controller
 {
@@ -59,5 +60,11 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+    public function logOut()
+    {
+        Session::flush();
+        Auth::logout();
+        return redirect('login');
     }
 }
