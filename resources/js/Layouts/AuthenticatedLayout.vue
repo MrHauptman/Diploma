@@ -6,7 +6,8 @@
         <main  @drop.prevent="handleDrop"
                 @dragover.prevent= "onDragOver"
                 @dragleave.prevent="onDragLeave" 
-                class="flex flex-col flex-1 px-4 overflow-hidden">
+                class="flex flex-col flex-1 px-4 overflow-hidden"
+                :class="dragOver ? 'dropzone':'' ">
             <template v-if="dragOver" class="text-gray-500 text-center py-8 text-sm">
                 Перетащите файл сюда
 
@@ -43,15 +44,17 @@ const showingNavigationDropdown = ref(false);
 import {MenuItem} from "@headlessui/vue";
 import {emitter, FILE_UPLOAD_STARTED} from "@/event-bus";
 import { onMounted } from 'vue';
+import { usePage, useForm } from '@inertiajs/vue3';
 
-/* const page = usePage();
+ const page = usePage();
 const fileUploadForm = useForm({
     files: [],
     relative_paths: [],
     parent_id: null
-}) */
+}) 
 
-// Refs
+
+
 const dragOver = ref(false)
 
 
@@ -75,9 +78,25 @@ function handleDrop(ev) {
 
 
 function uploadFiles(files){
-    console.log(files);
+    console.log(page.props)
+    fileUploadForm.parent_id = page.props.folder.id
+    fileUploadForm.files = files
+
+    fileUploadForm.post(route('file.store'))
 }
 onMounted(() => {
     emitter.on(FILE_UPLOAD_STARTED, uploadFiles)
 })
 </script>
+
+
+<style scoped>
+.dropzone {
+    width: 100%;
+    height: 100%;
+    color: #888;
+    border: 2px dashed gray;
+    justify-content: center;
+    align-items: center;
+}
+</style>
