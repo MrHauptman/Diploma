@@ -68,7 +68,7 @@ function onShow() {
 
 function createFolder() {
 
-    
+    form.parent_id = page.props.parent_id;
     const name = form.name;
     form.post(route('folder.create'), {
         preserveScroll: true,

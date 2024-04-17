@@ -24,28 +24,13 @@
             class="absolute right-0 mt-2 w-50 max-h-56 overflow-y-auto origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-10"
           >
             <div class="px-1 py-1">
-              <MenuItem v-slot="{ active }">
-                <ResponsiveNavLink
-                  :href="route('profile.edit')"
-                  :class="[
-                    active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                  ]"
-                >
-                  <ProfileIcon
-                    :active="active"
-                    class="mr-2 h-5 w-5 text-violet-400"
-                    aria-hidden="true"
-                  />
-                  <a>Загрузить файл</a>
-                </ResponsiveNavLink>
-              </MenuItem>
+            
               <MenuItem v-slot="{ active }">
                 <ResponsiveNavLink
                   :href="route('logout')"
                   :class="[
-                    active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                    active ? 'bg-violet-500 text-white' : 'text-gray-700',
+                    'block px-4 py-2 text-sm relative',
                   ]"
                 >
                   <LogOutIcon
@@ -56,36 +41,25 @@
                   <a href="#" @click.prevent="showCreateFolderModal">Создать папку</a>
                 </ResponsiveNavLink>
               </MenuItem>
-              <MenuItem v-slot="{ active }">
-                <ResponsiveNavLink
-                  :href="route('logout')"
-                  :class="[
-                    active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
-                  ]"
-                >
-                  <LogOutIcon
-                    :active="active"
-                    class="mr-2 h-5 w-5 text-violet-400"
-                    aria-hidden="true"
-                  />
-                  <a>Загрузить папку</a>
-                </ResponsiveNavLink>
-              </MenuItem>
+            <div>
+            <FileUploadMenuItem/>
+            <FolderUploadMenuItem/>
+            </div>
             </div>
           </MenuItems>
         </transition>
       </Menu>
-      <CreateFolderModal v-model="createFolderModal" @setParentId="setParentId" />
+      <CreateFolderModal v-model="createFolderModal" />
     </div>
   </template>
 
 <script setup>
 
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
-import ResponsiveNavLink from '../ResponsiveNavLink.vue';
-import {ref} from 'vue'
+import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
 import CreateFolderModal from "@/Components/app/CreateFolderModal.vue";
+import {ref} from "vue";
+import FileUploadMenuItem from "@/Components/app/FileUploadMenuItem.vue";
+import FolderUploadMenuItem from "@/Components/app/FolderUploadMenuItem.vue";
 
 
 const createFolderModal = ref(false)
