@@ -76,7 +76,7 @@
           </MenuItems>
         </transition>
       </Menu>
-      <CreateFolderModal v-model="createFolderModal"/>
+      <CreateFolderModal v-model="createFolderModal" @setParentId="setParentId" />
     </div>
   </template>
 
@@ -97,6 +97,7 @@ function showCreateFolderModal()
 
 
 }
+
 
 
 </script>
