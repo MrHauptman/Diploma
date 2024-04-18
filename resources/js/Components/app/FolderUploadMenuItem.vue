@@ -10,6 +10,8 @@
 <script setup>
 
 import {MenuItem} from "@headlessui/vue";
+import {emitter, FILE_UPLOAD_STARTED} from "@/event-bus";
+
 
 
 function onChange(ev){
