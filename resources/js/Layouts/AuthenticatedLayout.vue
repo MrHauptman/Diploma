@@ -8,6 +8,7 @@
                 @dragleave.prevent="onDragLeave" 
                 class="flex flex-col flex-1 px-4 overflow-hidden"
                 :class="dragOver ? 'dropzone':'' ">
+                
             <template v-if="dragOver" class="text-gray-500 text-center py-8 text-sm">
                 Перетащите файл сюда
 

@@ -51,6 +51,7 @@
             class="bg-white border-b transition duration-300 ease-in-out
             hover:bg-gray-100">
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 cursor-pointer">
+                <FileIcon :file="file"/>
                 {{ file.name }}
             </td> 
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 ">
@@ -81,6 +82,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
 import { router } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
+import FileIcon from "@/Components/app/FileIcon.vue";
 
 
 function openFolder(file){
@@ -95,6 +97,6 @@ function openFolder(file){
 const{files} = defineProps({
     files: Object,
     folder: Object,
-    ancestors: Array 
+    ancestors: Object
 })
 </script>
