@@ -1,23 +1,37 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddToFavouritesRequest;
+use App\Http\Requests\FilesActionRequest;
+use App\Http\Requests\ShareFilesRequest;
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\StoreFolderRequest;
-
+use App\Http\Requests\TrashFilesRequest;
 use App\Http\Resources\FileResource;
+use App\Jobs\UploadFileToCloudJob;
+use App\Mail\ShareFilesMail;
 use App\Models\File;
+use App\Models\FileShare;
+use App\Models\StarredFile;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
-
 
 class FileController extends Controller
 {
     
     
-    public function myFiles(string $folder = null) 
+    public function myFiles(Request $request, string $folder = null) 
     {
 
+        
         
         if ($folder) {
             $folder = File::query()->where('created_by', Auth::id())
@@ -36,7 +50,9 @@ class FileController extends Controller
         ->orderBy('created_at','desc')
         ->paginate(10);
         $files = FileResource::collection($files);    
-        ////dd($folder);
+        if ($request->wantsJson() ) {
+            return $files;
+        }
         
         $ancestors = FileResource::collection([...$folder->ancestors, $folder]);
 
@@ -121,3 +137,4 @@ public function saveFileTree($fileTree, $parent, $user)
 
 
 }
+?>

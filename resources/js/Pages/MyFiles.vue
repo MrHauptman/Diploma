@@ -24,6 +24,7 @@
 
         </ol>
     </nav>
+    <div class="flex-1 overflow-auto">
     <table  class="min-w-full">
         <thead class="bg-violet-500 border-b ">
            <tr> 
@@ -46,7 +47,7 @@
         </tr>
         </thead>
         <tbody>
-            <tr v-for="file of files.data" :key="file.id"
+            <tr v-for="file of allFiles.data" :key="file.id"
             @dblclick="openFolder(file)"
             class="bg-white border-b transition duration-300 ease-in-out
             hover:bg-gray-100">
@@ -69,20 +70,44 @@
             </tr>
         </tbody>
     </table>
-    <div v-if= "!files.data.length" class="py-8 text-center text-lg">
+        <div v-if= "!allFiles.data.length" class="py-8 text-center text-lg">
         Директория пуста
-        
     </div>
-
+    <div ref="loadMoreIntersect"></div>
+    </div>
 </AuthenticatedLayout>
 </template>
 
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
-import { router } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import FileIcon from "@/Components/app/FileIcon.vue";
+import {computed, onMounted, onUpdated, ref} from "vue";
+import {router, useForm, usePage} from "@inertiajs/vue3";
+import {httpGet, httpPost} from "@/Helper/http-helper.js";
+
+const props = defineProps({
+    files: Object,
+    folder: Object,
+    ancestors: Object
+})
+const page = usePage();
+
+// Refs
+const allSelected = ref(false);
+const onlyFavourites = ref(false);
+const selected = ref({});
+const loadMoreIntersect = ref(null)
+let search = ref('');
+
+const allFiles = ref({
+    data: props.files.data,
+    next: props.files.links.next
+})
+let params = null;
+
+// Props & Emit
 
 
 function openFolder(file){
@@ -92,11 +117,36 @@ function openFolder(file){
     }
     router.visit(route('myFiles',{folder: file.path}))
 }
+function loadMore() {
+    console.log("load more");
+    console.log(allFiles.value.next)
+    if (allFiles.value.next === null) {
+        return
+    }
+    httpGet(allFiles.value.next)
+        .then(res => {
+            allFiles.value.data = [...allFiles.value.data, ...res.data]
+            allFiles.value.next = res.links.next
+        })
+   
+}
 
-
-const{files} = defineProps({
-    files: Object,
-    folder: Object,
-    ancestors: Object
+onUpdated(() => {
+    allFiles.value = {
+        data: props.files.data,
+        next: props.files.links.next
+    }
 })
+
+onMounted(() => {
+    
+   
+    const observer = new IntersectionObserver((entries) => entries.forEach(entry => entry.isIntersecting && loadMore()), {
+        rootMargin: '-250px 0px 0px 0px'
+    })
+
+    observer.observe(loadMoreIntersect.value)
+})
+
+
 </script>
