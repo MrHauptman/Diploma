@@ -21,13 +21,23 @@
                         </Link>
                 </div>
             </li>
-
+            <div>
+                <DeleteFilesButton :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete"/>
+            </div>
         </ol>
+        
     </nav>
+    <pre>
+        {{ selectedIds }}
+    </pre>
+    
     <div class="flex-1 overflow-auto">
     <table  class="min-w-full">
         <thead class="bg-violet-500 border-b ">
-           <tr> 
+           <tr>
+            <th class="text-sm font-medium text-white px-6 py-4 text-left">
+                <Checkbox @change="onSelectAllChange" v-model:checked="allSelected"/>
+            </th>
             <th class="text-sm font-medium text-white px-6 py-4 text-left">
                    Название
                    
@@ -48,9 +58,13 @@
         </thead>
         <tbody>
             <tr v-for="file of allFiles.data" :key="file.id"
+            @click="$event => toggleFileSelect(file) "
             @dblclick="openFolder(file)"
-            class="bg-white border-b transition duration-300 ease-in-out
-            hover:bg-gray-100">
+            class="border-b transition duration-300 ease-in-out hover:bg-blue-100 cursor-pointer"
+            :class="(selected[file.id] || allSelected ) ? 'bg-blue-50' : 'bg-white'">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 cursor-pointer">
+                <Checkbox v-model ="selected[file.id]" :checked="selected[file.id] || allSelected"/>
+            </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 cursor-pointer">
                 <FileIcon :file="file"/>
                 {{ file.name }}
@@ -86,6 +100,8 @@ import FileIcon from "@/Components/app/FileIcon.vue";
 import {computed, onMounted, onUpdated, ref} from "vue";
 import {router, useForm, usePage} from "@inertiajs/vue3";
 import {httpGet, httpPost} from "@/Helper/http-helper.js";
+import Checkbox from "@/Components/Checkbox.vue";
+import DeleteFilesButton from "@/Components/app/DeleteFilesButton.vue";
 
 const props = defineProps({
     files: Object,
@@ -100,6 +116,9 @@ const onlyFavourites = ref(false);
 const selected = ref({});
 const loadMoreIntersect = ref(null)
 let search = ref('');
+
+const selectedIds = computed(() => Object.entries(selected.value).filter(a => a[1]).map(a => a[0]))
+
 
 const allFiles = ref({
     data: props.files.data,
@@ -130,7 +149,32 @@ function loadMore() {
         })
    
 }
+function onSelectAllChange() {
+    allFiles.value.data.forEach(f => {
+        selected.value[f.id] = allSelected.value
+    })
+}
+function toggleFileSelect(file) {
+    selected.value[file.id] = !selected.value[file.id]
+    onSelectCheckboxChange(file)
+}
+function onSelectCheckboxChange(file) {
+    if (!selected.value[file.id]) {
+        allSelected.value = false;
+    } else {
+        let checked = true;
 
+        for (let file of allFiles.value.data) {
+            if (!selected.value[file.id]) {
+                checked = false;
+                break;
+            }
+        }
+
+        allSelected.value = checked
+
+    }
+}
 onUpdated(() => {
     allFiles.value = {
         data: props.files.data,

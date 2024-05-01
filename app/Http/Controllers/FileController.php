@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddToFavouritesRequest;
+use App\Http\Requests\DestroyFilesRequest;
 use App\Http\Requests\FilesActionRequest;
 use App\Http\Requests\ShareFilesRequest;
 use App\Http\Requests\StoreFileRequest;
@@ -136,5 +137,32 @@ public function saveFileTree($fileTree, $parent, $user)
     }
 
 
-}
+
+public function destroy(DestroyFilesRequest $request)
+    {
+       
+        $data = $request->validated();
+        $parent = $request->parent;
+
+        if ($data['all']) {
+            $children = $parent->children;
+
+            foreach ($children as $child) {
+                $child->delete();
+            }
+        } 
+        else {
+            foreach ($data['ids'] ?? [] as $id) {
+                $file = File::find($id);
+                ///if ($file) {
+                 ///   $file->delete();
+                ///}
+            }
+        }
+
+        return to_route('myFiles', ['folder' => $parent->path]);
+    }
+
+    }
+
 ?>
