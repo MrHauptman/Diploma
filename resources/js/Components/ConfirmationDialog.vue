@@ -5,10 +5,10 @@
         <p>{{message}}</p>
 
         <div class="mt-6 flex justify-end">
-            <SecondaryButton @click="$event => emit('cancel')">Cancel</SecondaryButton>
+            <SecondaryButton @click="$event => emit('cancel')">Отмена</SecondaryButton>
 
             <DangerButton class="ml-3" @click="$event => emit('confirm')">
-                Confirm
+                Подтвердить
             </DangerButton>
         </div>
     </div>

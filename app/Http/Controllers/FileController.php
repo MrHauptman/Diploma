@@ -154,9 +154,9 @@ public function destroy(DestroyFilesRequest $request)
         else {
             foreach ($data['ids'] ?? [] as $id) {
                 $file = File::find($id);
-                ///if ($file) {
-                 ///   $file->delete();
-                ///}
+                if ($file) {
+                    $file->delete();
+                }
             }
         }
 
