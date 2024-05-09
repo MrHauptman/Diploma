@@ -24,6 +24,9 @@
             <div>
                 <DeleteFilesButton :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete"/>
             </div>
+            <div>
+                <DownloadFilesButton :all="allSelected" :ids="selectedIds" class="mr-2"/>
+            </div>
         </ol>
         
     </nav>
@@ -38,6 +41,7 @@
             <th class="text-sm font-medium text-white px-6 py-4 text-left">
                 <Checkbox @change="onSelectAllChange" v-model:checked="allSelected"/>
             </th>
+            
             <th class="text-sm font-medium text-white px-6 py-4 text-left">
                    Название
                    
@@ -102,6 +106,7 @@ import {router, useForm, usePage} from "@inertiajs/vue3";
 import {httpGet, httpPost} from "@/Helper/http-helper.js";
 import Checkbox from "@/Components/Checkbox.vue";
 import DeleteFilesButton from "@/Components/app/DeleteFilesButton.vue";
+import DownloadFilesButton from "@/Components/app/DownloadFilesButton.vue";
 
 const props = defineProps({
     files: Object,
@@ -148,6 +153,10 @@ function loadMore() {
             allFiles.value.next = res.links.next
         })
    
+}
+function onDelete() {
+    allSelected.value = false
+    selected.value = {}
 }
 function onSelectAllChange() {
     allFiles.value.data.forEach(f => {
