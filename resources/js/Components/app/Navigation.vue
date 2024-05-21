@@ -8,10 +8,10 @@
         </Link>
             <CreateNewDropdown/>
             <div class="py-3">
-                <NavLink :href = "route('myFiles')" :active="$page.url === '/my-files'">My Files</NavLink>
+                <NavLink :href = "route('myFiles')" :active="$page.url === '/my-files'">Мои файлы</NavLink>
                 <NavLink href="/">Полученные</NavLink>
                 <NavLink href="/">Отправленные</NavLink>
-                <NavLink href="/">Корзина</NavLink>
+                <NavLink :href="route('trash')" :active="$page.props.route_name === 'trash'">Корзина</NavLink>
             </div>
     </nav>
 </template>

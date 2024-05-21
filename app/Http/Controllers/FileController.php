@@ -104,7 +104,30 @@ private function getRoot()
 {
     return File::query()->whereIsRoot()->where('created_by', Auth::id())->firstOrFail();
 }
-    
+public function trash(Request $request)
+{
+    $search = $request->get('search');
+    $query = File::onlyTrashed()
+        ->where('created_by', Auth::id())
+        ->orderBy('is_folder', 'desc')
+        ->orderBy('deleted_at', 'desc')
+        ->orderBy('files.id', 'desc');
+
+    if ($search) {
+        $query->where('name', 'like', "%$search%");
+    }
+
+    $files = $query->paginate(10);
+
+    $files = FileResource::collection($files);
+
+    if ($request->wantsJson()) {
+        return $files;
+    }
+
+    return Inertia::render('Trash', compact('files'));
+}
+
 public function saveFileTree($fileTree, $parent, $user)
     {
         foreach ($fileTree as $name => $file) {
@@ -210,7 +233,43 @@ public function saveFileTree($fileTree, $parent, $user)
         'filename'=>$filename
     ];
 }
+public function restore(TrashFilesRequest $request)
+    {
+        $data = $request->validated();
+        if ($data['all']) {
+            $children = File::onlyTrashed()->get();
+            foreach ($children as $child) {
+                $child->restore();
+            }
+        } else {
+            $ids = $data['ids'] ?? [];
+            $children = File::onlyTrashed()->whereIn('id', $ids)->get();
+            foreach ($children as $child) {
+                $child->restore();
+            }
+        }
 
+        return to_route('trash');
+    }
+
+    public function deleteForever(TrashFilesRequest $request)
+    {
+        $data = $request->validated();
+        if ($data['all']) {
+            $children = File::onlyTrashed()->get();
+            foreach ($children as $child) {
+                $child->deleteForever();
+            }
+        } else {
+            $ids = $data['ids'] ?? [];
+            $children = File::onlyTrashed()->whereIn('id', $ids)->get();
+            foreach ($children as $child) {
+                $child->deleteForever();
+            }
+        }
+
+        return to_route('trash');
+    }
         
      
 

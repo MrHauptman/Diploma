@@ -30,9 +30,6 @@
         </ol>
         
     </nav>
-    <pre>
-        {{ selectedIds }}
-    </pre>
     
     <div class="flex-1 overflow-auto">
     <table  class="min-w-full">

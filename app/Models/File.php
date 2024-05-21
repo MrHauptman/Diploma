@@ -77,5 +77,20 @@ class File extends Model
 
        return number_format($this->size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
    }
+   public function deleteForever()
+   {
+       $this->deleteFilesFromStorage([$this]);
+       $this->forceDelete();
+   }
 
+   public function deleteFilesFromStorage($files)
+   {
+       foreach ($files as $file) {
+           if ($file->is_folder) {
+               $this->deleteFilesFromStorage($file->children);
+           } else {
+               Storage::delete($file->storage_path);
+           }
+       }
+   }
 }
