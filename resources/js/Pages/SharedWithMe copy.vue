@@ -2,7 +2,7 @@
     <AuthenticatedLayout>
         <nav class="flex items-center justify-end p-1 mb-3">
             <div>
-                <DownloadFilesButton :all="allSelected" :ids="selectedIds" class="mr-2" :shared-by-me="true"/>
+                <DownloadFilesButton :all="allSelected" :ids="selectedIds" class="mr-2" :shared-with-me="true"/>
             </div>
         </nav>
         <div class="flex-1 overflow-auto">
@@ -71,7 +71,10 @@ const allSelected = ref(false);
 const selected = ref({});
 const loadMoreIntersect = ref(null)
 
-
+const allFiles = ref({
+    data: props.files.data,
+    next: props.files.links.next
+})
 
 // Props & Emit
 const props = defineProps({
@@ -79,10 +82,7 @@ const props = defineProps({
     folder: Object,
     ancestors: Object
 })
-const allFiles = ref({
-    data: props.files.data,
-    next: props.files.links.next
-})
+
 // Computed
 const selectedIds = computed(() => Object.entries(selected.value).filter(a => a[1]).map(a => a[0]))
 
