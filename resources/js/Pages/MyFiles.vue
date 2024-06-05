@@ -6,7 +6,7 @@
             <li v-for="ans of ancestors.data" :key="ans.id">
                 <Link v-if="!ans.parent_id" :href="route('myFiles')" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
                         <HomeIcon class="w-4 h-4"/>
-                        My Files
+                        Мои файлы(загруженные)
                 
                 </Link>
                 <div v-else class="flex items-center">
@@ -26,7 +26,7 @@
         </ol>
         <div class="flex">
                 <label class="flex items-center mr-3">
-                    Only Favourites
+                    Только Избранные
                     <Checkbox @change="showOnlyFavourites"  v-model:checked="onlyFavourites" class="ml-2"/>
                 </label>
             </div>
@@ -39,26 +39,26 @@
     
     <div class="flex-1 overflow-auto">
     <table  class="min-w-full">
-        <thead class="bg-violet-500 border-b ">
+        <thead class="bg-violet-200 border-b ">
            <tr>
-            <th class="text-sm font-medium text-white px-6 py-4 text-left">
+            <th class="text-sm font-medium text-black px-6 py-4 text-left">
                 <Checkbox @change="onSelectAllChange" v-model:checked="allSelected"/>
             </th>
             
-            <th class="text-sm font-medium text-white px-6 py-4 text-left">
+            <th class="text-sm font-medium text-black px-6 py-4 text-left">
                    Название
                    
             </th>
             
-            <th class="text-sm font-medium text-white px-6 py-4 text-left">
+            <th class="text-sm font-medium text-black px-6 py-4 text-left">
                    Загрузчик
             </th>
          
-            <th class="text-sm font-medium text-white px-6 py-4 text-left">
+            <th class="text-sm font-medium text-black px-6 py-4 text-left">
                    Изменено
             </th>
             
-            <th class="text-sm font-medium text-white px-6 py-4 text-left">
+            <th class="text-sm font-medium text-black px-6 py-4 text-left">
                    Размер
             </th>
         </tr>

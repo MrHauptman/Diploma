@@ -8,16 +8,16 @@
         <div class="flex-1 overflow-auto">
 
             <table class="min-w-full">
-                <thead class="bg-gray-100 border-b">
+                <thead class="bg-green-200 border-b">
                 <tr>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left w-[30px] max-w-[30px] pr-0">
                         <Checkbox @change="onSelectAllChange" v-model:checked="allSelected"/>
                     </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Name
+                        Название
                     </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Path
+                        Путь
                     </th>
                 </tr>
                 </thead>
@@ -42,7 +42,7 @@
             </table>
 
             <div v-if="!allFiles.data.length" class="py-8 text-center text-sm text-gray-400">
-                There is no data in this folder
+                Директория пуста
             </div>
             <div ref="loadMoreIntersect"></div>
         </div>
